@@ -30,12 +30,13 @@ jobs:
           libssl-dev \
           openjdk-11-jdk
           
-    - name: Install Buildozer
-      run: pip3 install buildozer
-      
-    - name: Build APK with Buildozer
-      run: |
-        buildozer android debug
+- name: Install Buildozer
+  run: pip3 install buildozer cython==0.29.33
+  
+- name: Build APK with Buildozer
+  run: |
+    buildozer android clean
+    buildozer android debug
         ls -la bin/
         
     - name: Upload APK artifact
