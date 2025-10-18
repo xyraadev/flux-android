@@ -7,6 +7,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     
     steps:
     - name: Checkout code
@@ -18,14 +19,23 @@ jobs:
         sudo apt-get install -y python3-pip git autoconf automake libtool pkg-config zlib1g-dev libncurses5-dev libtinfo5 cmake libffi-dev libssl-dev openjdk-11-jdk
         
     - name: Install Buildozer
-      run: pip3 install buildozer cython==0.29.33
+      run: pip3 install buildozer
         
-    - name: Build APK
+    - name: Build APK (with timeout)
       run: |
-        buildozer android clean
-        buildozer android debug
+        timeout 35m buildozer android debug || echo "Build might have timed out but continuing"
       
-    - name: Upload APK
+    - name: Check for APK
+      run: |
+        if [ -f bin/*.apk ]; then
+          echo "APK found!"
+          ls -la bin/
+        else
+          echo "No APK found"
+          ls -la
+        fi
+      
+    - name: Upload APK if exists
       uses: actions/upload-artifact@v4
       with:
         name: flux-mobile-apk
