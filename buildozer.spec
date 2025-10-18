@@ -1,21 +1,18 @@
 [app]
-title = Flux Mobile
-package.name = fluxmobile
+title = Test App
+package.name = testapp
 package.domain = org.test
 
-version = 1.0
+version = 0.1
 version.code = 1
 
 source.dir = .
 source.main = main.py
 
-requirements = python3, kivy
+requirements = python3
 
-android.permissions = INTERNET
 android.minapi = 21
 android.targetapi = 31
-
-orientation = portrait
 
 [buildozer]
 log_level = 2
