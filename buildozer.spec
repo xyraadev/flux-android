@@ -1,21 +1,22 @@
-[app]
-title = Flux Mobile
-package.name = fluxmobile
-package.domain = org.test
+name: Build APK
 
-version = 0.1
-version.code = 1
+on: [push]
 
-source.dir = .
-source.main = main.py
-
-requirements = python3, kivy
-
-android.permissions = INTERNET
-android.minapi = 21
-android.targetapi = 31
-
-orientation = portrait
-
-[buildozer]
-log_level = 2
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build with Buildozer
+      uses: ArtemSBulgakov/buildozer-action@v1
+      with:
+        work-dir: ./
+        buildozer-version: main
+        
+    - name: Upload APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: app
+        path: bin/*.apk
